@@ -20,6 +20,7 @@ namespace TubesSC
         private ANN<string> ANN = null;
 
         private Dictionary<string, double[]> TrainingSet = null;
+        private Dictionary<string, double[]> ValidationSet = null;
         private int imgHeight = 0;
         private int imgWidth = 0;
         private int NumOfImages = 0;
@@ -60,7 +61,7 @@ namespace TubesSC
                 args.Stop = true;
         }   
         #region Initialize Dataset Training
-        private void InitializeSettings()
+        private void InitializeSettings() //for validation set
         {
             statusTxt.AppendText("Initializing Settings..");
 
@@ -118,6 +119,23 @@ namespace TubesSC
 
             statusTxt.AppendText("Done!\r\n");
         }
+
+        private void GenerateValidationSet()
+        {
+            statusTxt.AppendText("Generating Validation Set..");
+
+            string[] Images = Directory.GetFiles(filename2Txt.Text, "*.bmp");
+
+            ValidationSet = new Dictionary<string, double[]>(Images.Length);
+            foreach (string s in Images)
+            {
+                Bitmap Temp = new Bitmap(s);
+                ValidationSet.Add(Path.GetFileNameWithoutExtension(s), ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth));
+                Temp.Dispose();
+            }
+
+            statusTxt.AppendText("Done!\r\n");
+        }
         #endregion
 
 
@@ -136,7 +154,7 @@ namespace TubesSC
 
                 int HiddenNum = Int16.Parse(hiddenTxt.Text);
 
-                ANN = new ANN<string>(new ANNProcess2<string>(imgHeight*imgWidth, HiddenNum, NumOfImages), TrainingSet);
+                ANN = new ANN<string>(new ANNProcess2<string>(imgHeight*imgWidth, HiddenNum, NumOfImages), TrainingSet, ValidationSet);
             
             
 
@@ -161,6 +179,7 @@ namespace TubesSC
                 InitializeSettings();
 
                 GenerateTrainingSet();
+                GenerateValidationSet();
                 CreateANN();
 
                 asyCallBack = new AsyncCallback(TrainingCompleted);
@@ -441,6 +460,17 @@ namespace TubesSC
                 b.Save(savepath + i+".bmp", ImageFormat.Bmp);
                 i++;
                 Temp.Dispose();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog f = new FolderBrowserDialog();
+
+            //f.ShowDialog();
+            if (f.ShowDialog() == DialogResult.OK)
+            {
+                filename2Txt.Text = f.SelectedPath;
             }
         }
     }

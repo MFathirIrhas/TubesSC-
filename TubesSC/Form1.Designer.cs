@@ -64,8 +64,10 @@
             this.openTestImageBtn = new System.Windows.Forms.Button();
             this.testImageTxt = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.filename2Txt = new System.Windows.Forms.TextBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewPB)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -76,24 +78,24 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 36);
+            this.button1.Location = new System.Drawing.Point(14, 24);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(80, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Browse";
+            this.button1.Text = "Train Set";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // filenameTxt
             // 
-            this.filenameTxt.Location = new System.Drawing.Point(98, 39);
+            this.filenameTxt.Location = new System.Drawing.Point(96, 26);
             this.filenameTxt.Name = "filenameTxt";
             this.filenameTxt.Size = new System.Drawing.Size(223, 20);
             this.filenameTxt.TabIndex = 1;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 114);
+            this.button2.Location = new System.Drawing.Point(12, 125);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(80, 43);
             this.button2.TabIndex = 2;
@@ -114,7 +116,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(104, 65);
+            this.label1.Location = new System.Drawing.Point(106, 88);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 4;
@@ -123,7 +125,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(104, 88);
+            this.label2.Location = new System.Drawing.Point(104, 114);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 5;
@@ -132,7 +134,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(104, 112);
+            this.label3.Location = new System.Drawing.Point(104, 140);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 13);
             this.label3.TabIndex = 6;
@@ -142,7 +144,7 @@
             // 
             this.inputTxt.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.inputTxt.Enabled = false;
-            this.inputTxt.Location = new System.Drawing.Point(156, 62);
+            this.inputTxt.Location = new System.Drawing.Point(156, 85);
             this.inputTxt.Name = "inputTxt";
             this.inputTxt.Size = new System.Drawing.Size(62, 20);
             this.inputTxt.TabIndex = 7;
@@ -151,7 +153,7 @@
             // 
             this.hiddenTxt.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.hiddenTxt.Enabled = false;
-            this.hiddenTxt.Location = new System.Drawing.Point(156, 85);
+            this.hiddenTxt.Location = new System.Drawing.Point(156, 111);
             this.hiddenTxt.Name = "hiddenTxt";
             this.hiddenTxt.Size = new System.Drawing.Size(62, 20);
             this.hiddenTxt.TabIndex = 8;
@@ -160,7 +162,7 @@
             // 
             this.outputTxt.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.outputTxt.Enabled = false;
-            this.outputTxt.Location = new System.Drawing.Point(156, 109);
+            this.outputTxt.Location = new System.Drawing.Point(156, 137);
             this.outputTxt.Name = "outputTxt";
             this.outputTxt.Size = new System.Drawing.Size(62, 20);
             this.outputTxt.TabIndex = 9;
@@ -168,7 +170,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(104, 144);
+            this.label4.Location = new System.Drawing.Point(104, 172);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(43, 13);
             this.label4.TabIndex = 10;
@@ -176,16 +178,16 @@
             // 
             // statusTxt
             // 
-            this.statusTxt.Location = new System.Drawing.Point(156, 144);
+            this.statusTxt.Location = new System.Drawing.Point(156, 172);
             this.statusTxt.Multiline = true;
             this.statusTxt.Name = "statusTxt";
-            this.statusTxt.Size = new System.Drawing.Size(152, 133);
+            this.statusTxt.Size = new System.Drawing.Size(163, 109);
             this.statusTxt.TabIndex = 11;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(225, 66);
+            this.label5.Location = new System.Drawing.Point(224, 92);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 12;
@@ -194,7 +196,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(225, 88);
+            this.label6.Location = new System.Drawing.Point(224, 114);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(55, 13);
             this.label6.TabIndex = 13;
@@ -204,7 +206,7 @@
             // 
             this.layersTxt.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.layersTxt.Enabled = false;
-            this.layersTxt.Location = new System.Drawing.Point(281, 62);
+            this.layersTxt.Location = new System.Drawing.Point(280, 88);
             this.layersTxt.Name = "layersTxt";
             this.layersTxt.Size = new System.Drawing.Size(40, 20);
             this.layersTxt.TabIndex = 14;
@@ -212,7 +214,7 @@
             // 
             // MSETxt
             // 
-            this.MSETxt.Location = new System.Drawing.Point(281, 88);
+            this.MSETxt.Location = new System.Drawing.Point(280, 114);
             this.MSETxt.Name = "MSETxt";
             this.MSETxt.Size = new System.Drawing.Size(40, 20);
             this.MSETxt.TabIndex = 15;
@@ -220,6 +222,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.button6);
+            this.panel1.Controls.Add(this.filename2Txt);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.timerLbl);
@@ -247,9 +251,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(12, 62);
+            this.button3.Location = new System.Drawing.Point(12, 85);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(80, 48);
+            this.button3.Size = new System.Drawing.Size(80, 36);
             this.button3.TabIndex = 21;
             this.button3.Text = "PCA";
             this.button3.UseVisualStyleBackColor = true;
@@ -268,7 +272,7 @@
             // timerLbl
             // 
             this.timerLbl.AutoSize = true;
-            this.timerLbl.Location = new System.Drawing.Point(9, 244);
+            this.timerLbl.Location = new System.Drawing.Point(9, 264);
             this.timerLbl.Name = "timerLbl";
             this.timerLbl.Size = new System.Drawing.Size(49, 13);
             this.timerLbl.TabIndex = 18;
@@ -277,7 +281,7 @@
             // iterationLbl
             // 
             this.iterationLbl.AutoSize = true;
-            this.iterationLbl.Location = new System.Drawing.Point(9, 206);
+            this.iterationLbl.Location = new System.Drawing.Point(9, 230);
             this.iterationLbl.Name = "iterationLbl";
             this.iterationLbl.Size = new System.Drawing.Size(41, 13);
             this.iterationLbl.TabIndex = 17;
@@ -286,7 +290,7 @@
             // errorLbl
             // 
             this.errorLbl.AutoSize = true;
-            this.errorLbl.Location = new System.Drawing.Point(11, 171);
+            this.errorLbl.Location = new System.Drawing.Point(9, 192);
             this.errorLbl.Name = "errorLbl";
             this.errorLbl.Size = new System.Drawing.Size(32, 13);
             this.errorLbl.TabIndex = 16;
@@ -413,6 +417,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Process";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(245, 69);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 21;
+            this.button5.Text = "Biner";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(84, 31);
@@ -423,15 +437,22 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button5
+            // filename2Txt
             // 
-            this.button5.Location = new System.Drawing.Point(245, 69);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 21;
-            this.button5.Text = "Biner";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.filename2Txt.Location = new System.Drawing.Point(96, 59);
+            this.filename2Txt.Name = "filename2Txt";
+            this.filename2Txt.Size = new System.Drawing.Size(223, 20);
+            this.filename2Txt.TabIndex = 22;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(14, 59);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(80, 23);
+            this.button6.TabIndex = 23;
+            this.button6.Text = "Validation Set";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
@@ -500,6 +521,8 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox filename2Txt;
     }
 }
 

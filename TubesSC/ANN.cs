@@ -13,14 +13,17 @@ namespace TubesSC
         private double maximumError = 1.0;
         private int Epoch = 100000;
         Dictionary<T, double[]> TrainingSet;
+        Dictionary<T, double[]> ValidationSet;
 
         public delegate void IterationChangedCallBack(object o, NeuralEventArgs args);
         public event IterationChangedCallBack IterationChanged = null;
 
-        public ANN(ANNMethods<T> IBackPro, Dictionary<T, double[]> trainingSet)
+        public ANN(ANNMethods<T> IBackPro, Dictionary<T, double[]> trainingSet , Dictionary<T,double[]> validationSet)
         {
             NeuralNet = IBackPro;
             TrainingSet = trainingSet;
+            ValidationSet = validationSet;
+
             NeuralNet.InitializeNetwork(TrainingSet);
         }
 
@@ -39,7 +42,8 @@ namespace TubesSC
                     NeuralNet.BackPropagate();
                     currentError += NeuralNet.GetError();
                 }
-                
+                //Validation
+                Validate();
                 currentIteration++;
 
                 if (IterationChanged != null && currentIteration % 5 == 0)
@@ -73,7 +77,7 @@ namespace TubesSC
             do
             {
                 currentError = 0;
-                foreach (KeyValuePair<T, double[]> p in TrainingSet)
+                foreach (KeyValuePair<T, double[]> p in ValidationSet)
                 {
                     NeuralNet.Forward(p.Value, p.Key);
                     NeuralNet.BackPropagate();
@@ -99,7 +103,7 @@ namespace TubesSC
             }
 
             if (currentIteration >= Epoch || Args.Stop)
-                return false;//Training Not Successful
+                return false;
 
             return true;
         }
