@@ -1,0 +1,39 @@
+﻿Tutorial using PCA in Accord.Net
+
+input reference:
+using Accord.Controls;
+using Accord.Math;
+using Accord.Math.Comparer;
+using Accord.Math.Decomposition;
+using Accord.Statistics;
+using Accord.Statistic.Analysis;
+using System.Runtime.InteropServices;
+
+Steps:
+
+1. Get 2D matrix : Row = Images, Column = Pixel, each using ToMatrix in ImageProcessing Class
+	Misal matrix bernama double[,] data
+
+2. Subtract Mean 
+	double[] mean = data.Mean();
+	double[,] centeredMean = data.Subtract(mean);
+
+3. Covariance Matrix
+	double[,] cov = centeredMean.Covariance();
+
+4. Eigenvectors and Eigenvalues
+	var evd = new EigenvalueDecomposition(cov);
+
+5. double[] eigenvalues = evd.RealEigenvalues;
+	double[,] eigenvectors = evd.Eigenvectors;
+	
+6. Sorting eigenvactors according to biggest eigenvalues
+	eigenvectors = Matrix.Sort(eigenvalues, eigenvectors, new GeneralComparer(ComparerDirection.Descending, true));
+
+7. extract eigenvectors
+	all eigenvectors : double[,] selectedEigenvectors = eigenvectors;
+	biggest eigenvectors : double[,] biggestEV = eigenvectors.GetColumn(0).Transpose();
+
+8. double[,] feature = centeredmean.Multiply(eigenvectors);
+
+9. Done.
