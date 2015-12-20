@@ -17,14 +17,11 @@ namespace TubesSC
 {
     class ImageProcessing
     {
+        double[] rowVector;
         public static double[] ToMatrix(Bitmap BM, int MatrixRowNumber, int MatrixColumnNumber)
-        {
-            //Bitmap bmp;
-            //bmp = Scale(BM, MatrixRowNumber / 2, MatrixColumnNumber / 2);
+        {            
             double HRate = ((Double)MatrixRowNumber / BM.Height);
             double WRate = ((Double)MatrixColumnNumber / BM.Width);
-            //double HRate = ((Double)bmp.Height / bmp.Height);
-            //double WRate = ((Double)bmp.Width / bmp.Width);
             double[] Result = new double[MatrixColumnNumber * MatrixRowNumber];
 
             for (int r = 0; r < MatrixRowNumber; r++)
@@ -36,33 +33,6 @@ namespace TubesSC
                 }
             }
 
-            #region PCA Process
-            //double[,] Result2d = new double[MatrixRowNumber,MatrixColumnNumber];
-            //int x = 0;
-            //for (int i = 0; i < MatrixRowNumber; i++)
-            //{
-            //    for (int j = 0; j < MatrixColumnNumber; j++)
-            //    {
-            //        Result2d[i, j] = Result[x];
-            //        x = x + 1;
-            //    }
-            //}
-            //var pca = new PrincipalComponentAnalysis(Result2d, AnalysisMethod.Center);
-            //pca.Compute();
-            //double[,] components = pca.Transform(Result2d);
-            //double[] Result1d = new double[MatrixColumnNumber * MatrixRowNumber];
-            //int y = 0;
-            //for (int k = 0; k < MatrixRowNumber; k++)
-            //{
-            //    for (int l = 0; l < MatrixColumnNumber; l++)
-            //    {
-            //        Result1d[y] = Result2d[k,l];
-            //        y = y + 1;
-            //    }
-            //}
-            
-            //return Result1d;
-            #endregion
             return Result;
         }
 
@@ -204,9 +174,31 @@ namespace TubesSC
 
         }
 
+        //public double[,] MatrixR(string[] Images)
+        //{
+        //    double[,] MR;
+        //    int NumOfImages = Images.Length;
+
+        //    int x = 0;
+        //    int y = 0;
+        //    foreach (string s in Images)
+        //    {
+        //        Bitmap Temp = new Bitmap(s);
+        //        rowVector = ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth);
+        //        for (int l = 0; l < rowVector.Length; l++)
+        //        {
+        //            R[x, l] = rowVector[l];
+        //            //Matrix_R = R;
+        //        }
+
+        //        Temp.Dispose();
+        //    }
+
+        //}
+
         public double[,] PCA(double[,] data)
         {
-            double[,] feature;
+            //double[,] ev = new double[360,30];
             double[] mean = data.Mean();
             double[,] cm = data.Subtract(mean);
             double[,] cov = cm.Covariance();
@@ -215,10 +207,18 @@ namespace TubesSC
             double[,] eigenvectors = evd.Eigenvectors;
             eigenvectors = Matrix.Sort(eigenvalues, eigenvectors, new GeneralComparer(ComparerDirection.Descending, true));
 
+            //for (int i = 0; i < eigenvectors.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < 30; j++)
+            //    {
+            //        ev[i, j] = eigenvectors[i, j];
+            //    }
+            //}
+            
             double[,] ev = eigenvectors;
 
-            feature = cm.Multiply(ev);
-            return feature;
+            //feature = cm.Multiply(ev);
+            return ev;
         }
     }
 }

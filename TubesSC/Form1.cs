@@ -12,6 +12,13 @@ using System.Windows.Forms;
 using System.Configuration;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
+using Accord.MachineLearning;
+using Accord.Math;
+using Accord.Math.Comparers;
+using Accord.Math.Decompositions;
+using Accord.Statistics;
+using Accord.Statistics.Analysis;
+using System.Runtime.InteropServices;
 
 namespace TubesSC
 {
@@ -26,8 +33,12 @@ namespace TubesSC
         private int NumOfImages = 0;
         
         //for PCA
-        double[,] matrixR = new double[1000,1000];
-        double[,] matrixF = new double[1000, 1000];
+        //double[,] matrixR = new double[1000,1000];
+        //double[,] matrixF = new double[1000, 1000];
+        private double[] rowVector = new double[900];
+        private Double[,] MatrixR = new double[360,900];
+        private double[,] R = new double[360,900];
+        private double[,] matrixEV = new double[360,1];
 
         private delegate bool TrainingCallBack();
         private AsyncCallback asyCallBack = null;
@@ -102,7 +113,7 @@ namespace TubesSC
         }
         #endregion
 
-        #region Generate Training Set
+        #region Generate Training and Validation Set
         private void GenerateTrainingSet()
         {
             statusTxt.AppendText("Generating Training Set..");
@@ -113,7 +124,11 @@ namespace TubesSC
             foreach (string s in Images)
             {
                 Bitmap Temp = new Bitmap(s);
-                TrainingSet.Add(Path.GetFileNameWithoutExtension(s), ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth));
+                double[] vImage = ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth);
+                MatrixEigenvectors(R);
+                double[] feature = vImage.Multiply(matrixEV);
+                //TrainingSet.Add(Path.GetFileNameWithoutExtension(s), ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth));
+                TrainingSet.Add(Path.GetFileNameWithoutExtension(s), feature);
                 Temp.Dispose();
             }
 
@@ -130,7 +145,11 @@ namespace TubesSC
             foreach (string s in Images)
             {
                 Bitmap Temp = new Bitmap(s);
-                ValidationSet.Add(Path.GetFileNameWithoutExtension(s), ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth));
+                double[] vImage2 = ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth);
+                MatrixEigenvectors(R);
+                double[] feature2 = vImage2.Multiply(matrixEV);
+                //ValidationSet.Add(Path.GetFileNameWithoutExtension(s), ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth));
+                ValidationSet.Add(Path.GetFileNameWithoutExtension(s), feature2);
                 Temp.Dispose();
             }
 
@@ -215,6 +234,7 @@ namespace TubesSC
             timer1.Start();
         }
 
+        #region UpdateUI
         private delegate void UpdateUI(object o);
         private void SetButtons(object o)
         {
@@ -283,17 +303,16 @@ namespace TubesSC
         {
             ManualReset.Set();
         }
+        #endregion
 
         private void recognizeBtn_Click(object sender, EventArgs e)
         {
             string MatchedHigh = "?", MatchedLow = "?";
             double OutputValueHight = 0, OutputValueLow = 0;
             Bitmap bmp = new Bitmap(previewPB.Image);
-            double[] input = ImageProcessing.ToMatrix(bmp,
-                imgHeight, imgWidth);
+            double[] input = ImageProcessing.ToMatrix(bmp,imgHeight, imgWidth);
 
-            ANN.Recognize(input, ref MatchedHigh, ref OutputValueHight,
-                ref MatchedLow, ref OutputValueLow);
+            ANN.Recognize(input, ref MatchedHigh, ref OutputValueHight,ref MatchedLow, ref OutputValueLow);
 
             ShowRecognitionResults(MatchedHigh, MatchedLow, OutputValueHight, OutputValueLow);
 
@@ -380,37 +399,34 @@ namespace TubesSC
             UpdateTimer(ElapsedTime.Hours.ToString("D2") + ":" + ElapsedTime.Minutes.ToString("D2") + ":" + ElapsedTime.Seconds.ToString("D2"));
         }
 
-        private void button3_Click_2(object sender, EventArgs e) //PCA
+        private void button3_Click_2(object sender, EventArgs e) //MatrixR --> Mendapatkan MatrixR.
         {
             string[] Images = Directory.GetFiles(filenameTxt.Text, "*.bmp");
             NumOfImages = Images.Length;
             ImageProcessing ip = new ImageProcessing();
-
-
+            //double[,] Matrix_R;
             int x = 0;
             int y = 0;
             foreach (string s in Images)
             {
                 Bitmap Temp = new Bitmap(s);
-                for (int i = 0; i < Temp.Height; i++)
+                rowVector = ImageProcessing.ToMatrix(Temp, imgHeight, imgWidth);
+                for(int l=0;l<rowVector.Length;l++)
                 {
-                    for(int j=0;j<Temp.Width ;j++)
-                    {
-                        Color c = Temp.GetPixel(i,j);
-                        double rgb =(c.R * .3 + c.G * .59 + c.B * .11) / 255;
-                        matrixR[x, y] = rgb;
-                        y++;
-                    }
-                    
+                    R[x, l] = rowVector[l];
+                    //Matrix_R = R;
                 }
-                y = 0;
-                x++;
-
+                
                 Temp.Dispose();
             }
-            matrixF = ip.PCA(matrixR);
-            SaveToExcel(matrixF);
-            MessageBox.Show("Penyimpanan Feature Selesai", "Done", MessageBoxButtons.OK);
+            MatrixR = R;
+            
+            
+            //matrixEV = ip.PCA(R);
+            
+            
+            //SaveToExcel(matrixF);
+            MessageBox.Show("Matrix R berhasil dibuat", "Done", MessageBoxButtons.OK);
         }
 
         private void SaveToExcel(double[,] matrixR) 
@@ -434,34 +450,7 @@ namespace TubesSC
         }
             
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            UpdateState("Validating.....\r\n");
-            SetButtons(false);
-            ManualReset.Reset();
-
-            TrainingCallBack TR = new TrainingCallBack(ANN.Validate);
-            res = TR.BeginInvoke(asyCallBack, TR);
-            ProcessTime = DateTime.Now;
-            timer1.Start();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            string[] Images = Directory.GetFiles(filenameTxt.Text, "*.bmp");
-            ImageProcessing ip = new ImageProcessing();
-            string savepath = "F:/face/";
-            int i = 1;
-            foreach (string s in Images)
-            {
-                Bitmap Temp = new Bitmap(s);
-                Bitmap b = ip.BinaryImage(Temp);
-
-                b.Save(savepath + i+".bmp", ImageFormat.Bmp);
-                i++;
-                Temp.Dispose();
-            }
-        }
+        
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -472,6 +461,33 @@ namespace TubesSC
             {
                 filename2Txt.Text = f.SelectedPath;
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ImageProcessing ip = new ImageProcessing();
+
+            matrixEV = ip.PCA(MatrixR);
+
+            if (matrixEV != null)
+            {
+                MessageBox.Show("Matrix Eigenvector berhasil dibuat", "Success!", MessageBoxButtons.OK);
+            }
+            else
+            {
+                MessageBox.Show("Matrix Eigenvector masih kosong", "Not Success!", MessageBoxButtons.OK);
+            }
+            
+            //statusTxt.Text = Convert.ToString(MatrixR[0, 1]);
+            
+            
+        }
+
+        private void MatrixEigenvectors(double[,] MatrixR)
+        {
+            ImageProcessing ip = new ImageProcessing();
+
+            matrixEV = ip.PCA(MatrixR);
         }
     }
 }

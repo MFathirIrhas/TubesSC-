@@ -46,6 +46,8 @@
             this.layersTxt = new System.Windows.Forms.TextBox();
             this.MSETxt = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button6 = new System.Windows.Forms.Button();
+            this.filename2Txt = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.timerLbl = new System.Windows.Forms.Label();
@@ -64,10 +66,7 @@
             this.openTestImageBtn = new System.Windows.Forms.Button();
             this.testImageTxt = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.filename2Txt = new System.Windows.Forms.TextBox();
-            this.button6 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewPB)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -95,7 +94,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 125);
+            this.button2.Location = new System.Drawing.Point(14, 140);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(80, 43);
             this.button2.TabIndex = 2;
@@ -107,7 +106,7 @@
             // 
             this.trainBtn.Location = new System.Drawing.Point(6, 31);
             this.trainBtn.Name = "trainBtn";
-            this.trainBtn.Size = new System.Drawing.Size(69, 32);
+            this.trainBtn.Size = new System.Drawing.Size(98, 47);
             this.trainBtn.TabIndex = 3;
             this.trainBtn.Text = "Train";
             this.trainBtn.UseVisualStyleBackColor = true;
@@ -222,6 +221,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.button6);
             this.panel1.Controls.Add(this.filename2Txt);
             this.panel1.Controls.Add(this.button3);
@@ -249,13 +249,30 @@
             this.panel1.Size = new System.Drawing.Size(326, 294);
             this.panel1.TabIndex = 16;
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(14, 59);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(80, 23);
+            this.button6.TabIndex = 23;
+            this.button6.Text = "Validation Set";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // filename2Txt
+            // 
+            this.filename2Txt.Location = new System.Drawing.Point(96, 59);
+            this.filename2Txt.Name = "filename2Txt";
+            this.filename2Txt.Size = new System.Drawing.Size(223, 20);
+            this.filename2Txt.TabIndex = 22;
+            // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(12, 85);
+            this.button3.Location = new System.Drawing.Point(14, 85);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(80, 36);
+            this.button3.Size = new System.Drawing.Size(80, 23);
             this.button3.TabIndex = 21;
-            this.button3.Text = "PCA";
+            this.button3.Text = "MatrixR";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click_2);
             // 
@@ -302,9 +319,9 @@
             // 
             // stopBtn
             // 
-            this.stopBtn.Location = new System.Drawing.Point(172, 31);
+            this.stopBtn.Location = new System.Drawing.Point(110, 31);
             this.stopBtn.Name = "stopBtn";
-            this.stopBtn.Size = new System.Drawing.Size(71, 32);
+            this.stopBtn.Size = new System.Drawing.Size(99, 47);
             this.stopBtn.TabIndex = 19;
             this.stopBtn.Text = "Stop";
             this.stopBtn.UseVisualStyleBackColor = true;
@@ -312,9 +329,9 @@
             // 
             // recognizeBtn
             // 
-            this.recognizeBtn.Location = new System.Drawing.Point(249, 31);
+            this.recognizeBtn.Location = new System.Drawing.Point(215, 31);
             this.recognizeBtn.Name = "recognizeBtn";
-            this.recognizeBtn.Size = new System.Drawing.Size(71, 32);
+            this.recognizeBtn.Size = new System.Drawing.Size(105, 47);
             this.recognizeBtn.TabIndex = 17;
             this.recognizeBtn.Text = "Recognize";
             this.recognizeBtn.UseVisualStyleBackColor = true;
@@ -405,8 +422,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button5);
-            this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Controls.Add(this.trainBtn);
             this.groupBox2.Controls.Add(this.stopBtn);
             this.groupBox2.Controls.Add(this.recognizeBtn);
@@ -417,42 +432,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Process";
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(245, 69);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 21;
-            this.button5.Text = "Biner";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(84, 31);
+            this.button4.Location = new System.Drawing.Point(14, 112);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(69, 32);
-            this.button4.TabIndex = 20;
-            this.button4.Text = "Validate";
+            this.button4.Size = new System.Drawing.Size(80, 23);
+            this.button4.TabIndex = 24;
+            this.button4.Text = "Extract PCA";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // filename2Txt
-            // 
-            this.filename2Txt.Location = new System.Drawing.Point(96, 59);
-            this.filename2Txt.Name = "filename2Txt";
-            this.filename2Txt.Size = new System.Drawing.Size(223, 20);
-            this.filename2Txt.TabIndex = 22;
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(14, 59);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(80, 23);
-            this.button6.TabIndex = 23;
-            this.button6.Text = "Validation Set";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
@@ -519,10 +507,9 @@
         private System.Windows.Forms.TextBox testImageTxt;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.TextBox filename2Txt;
+        private System.Windows.Forms.Button button4;
     }
 }
 
